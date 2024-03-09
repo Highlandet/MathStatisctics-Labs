@@ -1,4 +1,47 @@
 import numpy as np
+from utils import get_distribution, types, compute_trimmed_mean
+
+def compute_stat_values():
+    sizes = [10, 100, 1000]
+    repeats = 1000
+
+    for name in types:
+        print(f"\nStatistics for {name} distribution:")
+        print("{:<8} {:<15} {:<15} {:<15} {:<15} {:<15}".format(
+            "", "Mean", "Median", "z_r", "z_Q", "z_tr"
+        ))
+
+        for size in sizes:
+            mean, med, zr, zq, ztr = [], [], [], [], []
+
+            for _ in range(repeats):
+                array = get_distribution(name, size)
+                mean.append(np.mean(array))
+                med.append(np.median(array))
+                zr.append((max(array) + min(array)) / 2)
+                zq.append((np.quantile(array, 0.25) + np.quantile(array, 0.75)) / 2)
+                ztr.append(compute_trimmed_mean(array))
+
+            print("{:<8}".format(f"n={size}"))
+
+            print("{:<8} {:<15.6f} {:<15.6f} {:<15.6f} {:<15.6f} {:<15.6f}".format(
+                "E(z)", np.mean(mean), np.mean(med), np.mean(zr), np.mean(zq), np.mean(ztr)
+            ))
+
+            print("{:<8} {:<15.6f} {:<15.6f} {:<15.6f} {:<15.6f} {:<15.6f}".format(
+                "D(z)", np.mean(np.multiply(mean, mean)) - np.mean(mean) * np.mean(mean),
+                np.mean(np.multiply(med, med)) - np.mean(med) * np.mean(med),
+                np.mean(np.multiply(zr, zr)) - np.mean(zr) * np.mean(zr),
+                np.mean(np.multiply(zq, zq)) - np.mean(zq) * np.mean(zq),
+                np.mean(np.multiply(ztr, ztr)) - np.mean(ztr) * np.mean(ztr)
+            ))
+
+
+if __name__ == "__main__":
+    compute_stat_values()
+
+
+import numpy as np
 
 
 def calculate_statistics(sample):
@@ -9,7 +52,7 @@ def calculate_statistics(sample):
     # Выборочная медиана
     def Median(sample):
         if len(sample) % 2 == 1: return sample[len(sample) // 2]
-        return 0.5 * (sample[len(sample) // 2] + len(sample) // 2 + 1)
+        return 0.5 * (sample[len(sample) // 2] + sample[len(sample) // 2 + 1])
 
     # Полусумма экстремальных выборочных элементов
     def HalfsumExtreme(sample):
@@ -59,7 +102,7 @@ iterations = 1000
 
 def MeanResult(samples):
     transposed = [[row[i] for row in samples] for i in range(len(samples[0]))]
-    return tuple([sum(transposed[i]) for i in range(len(transposed))])
+    return tuple([sum(transposed[i]) / len(transposed[i]) for i in range(len(transposed))])
 
 
 def DispersionResult(samples):
@@ -84,7 +127,7 @@ for distribution, params in distributions.items():
     Means:
     {' & '.join(['{:.2f}'.format(m) for m in mr])} 
     Dispersion:
-    {' & '.join(['{:.2f}'.format(m) for m in dr])}
+    {' & '.join(['{:.2f}'.format(d) for d in dr])}
 
     """
         print(console_ans)
