@@ -1,5 +1,6 @@
 \documentclass[14pt]{extarticle}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage[T2A]{fontenc}
@@ -22,7 +23,7 @@
 
     \vspace{3cm}
 
-    {\large\textbf{Отчет по лабораторным работам по №1-3 по математической статистике}}
+    {\large\textbf{Отчет по лабораторным работам по №1-4 по математической статистике}}
 
     \vspace{4.5cm}
 
@@ -74,7 +75,7 @@
 \subsection{Реализация}
 
 Реализовывать гистограммы для этих распределений будем на языке Python3 с использованием пакетов numpy, matplotlib, scipy.
-Ссылка на Github-репозиторий: https://github.com/Highlandet/MathStatisctics-Labs
+Ссылка на Github-репозиторий: \texttt{https://github.com/Highlandet/MathStatisctics-Labs}
 
 \subsection{Результаты}
 
@@ -143,7 +144,7 @@
 \subsection{Реализация}
 
 Для вычисления статических характеристик положения данных будем использовать язык программирования Python3 и следующие библиотеки: numpy, scipy\\\\
-Ссылка на Github-репозиторий: https://github.com/Highlandet/MathStatisctics-Labs
+Ссылка на Github-репозиторий:\\ \texttt{https://github.com/Highlandet/MathStatisctics-Labs}
 
 \subsection{Результаты и выводы}
 
@@ -155,7 +156,7 @@
         \(E(z)\) & 0.02 & 0.04 & 0.03 & 0.00 & 0.03  \\
         \(D(z)\) & 0.10 & 0.47 & 0.54 & 0.12 & 0.44 \\
         \midrule
-  	\textbf{Normal: n=10} & \(\overline{x}\) & med \(x\) & \(z_R\) & \(z_Q\) & \(z_{tr}\)\\
+  	\textbf{Normal: n=100} & \(\overline{x}\) & med \(x\) & \(z_R\) & \(z_Q\) & \(z_{tr}\)\\
         \(E(z)\) & -0.00 & 0.01 & 0.00 & 0.02 & -0.05   \\
         \(D(z)\) & 0.01 & 0.44 & 0.50 & 0.12 & 3.23 \\
         \midrule
@@ -280,7 +281,7 @@ $\left[
 \subsection{Реализация}
 
 Отрисовыват ь боксплоты будем на языке Python3 с использованием программных пакетов numpy и matplotlib.\\
-Ссылка на Github-репозиторий: https://github.com/Highlandet/MathStatisctics-Labs/tree/main/L3-4
+Ссылка на Github-репозиторий: \texttt{https://github.com/Highlandet/MathStatisctics-Labs/}
 
 \subsection{Результаты}
 
@@ -326,5 +327,103 @@ $\left[
 При увеличении выборки ящик боксплота распределения Стьюдента смещается (это связано с ненулевым коэффициентом асимметрии при \(n\leq 3\)), и появляется больше выбросов.\\
 Для распределения Пуассона боксплот Тьюки может более компактен и симмитричен при увеличении выборки, однако, как и в случае с другими распределениями, при небольших выборках или наличии выбросов наблюдаются некоторые асимметрии (смещен ящик боксплота).\\
 Для равномерного распределения с увеличением выборки стремятся поделить в соответствующем процентном соотношении всю длину боксплота - это связано с тем, что равномерное распределение не имеет выбросов.
+
+\section{Доверительные интервалы для параметров нормального распределения}
+
+\subsection{Теоретическая справка}
+
+Промежуток \([\widehat{\theta_1}, \widehat{\theta_2}]\) называется доверительным интервалом для параметра \(\theta\) с уровнем доверия \(\beta\) тогда и только тогда, когда \(\mathbb{P}\{\widehat{\theta_1}\leq\theta\leq\widehat{\theta_2}\}\geq\beta\). Под знаком неравенства в выражении выше обычно подразумевают равенство. \(\widehat{\theta_1}\) - оценка нижней границы доверительного интервала, \(\widehat{\theta_2}\) - оценка верхней границы доверительного интервала.
+Дана выборка \((x_i)_{i=1}^n\) нормальной генеральной совокупности. На ее основе строим выборочное среднее \(\overline{x}\) и выборочное СКО \(s\). Параметры \(m\) и \(\sigma\) нормального распределения неизвестны.\\\\
+\textbf{Доверительный интервал матожидания \(m\) нормального распределения}\\\\
+Доказано, что статистика Стьюдента \(T\equal\frac{\overline{x}-m}{s}\sqrt{n-1}\propto\t(x, 0, n-1)\).\\
+Пусть \(\alpha\) - выбранный уровень значимости, и пусть \(\tau:=t_{1-0.5\alpha}(n-1)\) - соответствующий квантиль распределения Стьюдента, получаемый как результат функции \(F_T^{-1}(x)\), тогда:\\
+\[\mathbb{P}\{\overline{x}-\frac{s\tau}{\sqrt{n-1}}<m<\overline{x}+\frac{s\tau}{\sqrt{n-1}}\}=1-\alpha\].\\\\
+\textbf{Доверительный интервал СКО \(\sigma\) нормального распределения}\\\\
+Доказано, что \(\frac{ns^2}{\sigma^2}\propto\chi^2(n-1)\)
+Тогда, аналогично матожиданию:
+\[\mathbb{P}\{\frac{s\sqrt{n}}{\sqrt{\chi_{1-0.5\alpha}^2(n-1)}}<\sigma<\frac{s\sqrt{n}}{\sqrt{\chi_{0.5\alpha}^2(n-1)}}\}=1-\alpha\]\\\\
+\textbf{Доверительный интервал матожидания m для произвольный генеральной совокупности при большом объеме выборки.}\\\\
+В силу ЦПТ:  \(\frac{\overline{x}-M[\overline{x}]}{\sqrt{D[\overline{x}]}}=\sqrt{n}\dot\frac{\overline{x}-m}{\sigma}\propto N(x, 0, 1)\). Тогда:
+\[\mathbb{P}\{\overline{x}-\frac{su_{1-0.5\alpha}}{\sqrt{n}}<m<\overline{x}+\frac{su_{1-0.5\alpha}}{\sqrt{n}}\},\]
+где \(u_{1=0.5\alpha}\) - соответствующий квантиль \(N(x, 0, 1)\)\\\\
+\textbf{Доверительный интервал для СКО \(\sigma\) произвольной генеральной совокупности при большом объеме выборки}\\\\
+В силу ЦПТ:  \(\frac{s^2-M[s^2]}{\sqrt{D[s^2]}}\propto N(x, 0, 1)\), тогда:
+\[\mathbb{P}\{s(1-0.5\mathcal{U})<\sigma<s(1+0.5\mathcal{U})\}=1-\alpha,\]
+где \(\mathcal{U}=u_{1-0.5\alpha}\sqrt{\frac{e+2}{n}}\), а \(e=\frac{m_4}{s^4}-3\) - выборочный эксцесс.
+\subsection{Постановка задачи}
+
+Сгенерировать выборки размером 20 и 100 элементов, вычислить параметры положения и рассеяния:
+\begin{itemize}
+    \item для нормального распределения
+    \item для произвольного распределения
+\end{itemize}
+
+\subsection{Реализация}
+Реализовывать код по заданию будем на языке Python3, используя библиотеки numpy, scipy и matplotlib.\\
+Ссылка на Github-репозиторий: \\
+\texttt{https://github.com/Highlandet/MathStatisctics-Labs}
+
+\subsection{Результаты}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \toprule
+         & \(m\) & \(\sigma\)\\
+        \toprule
+        \textbf{Normal: n=20} & \(0.0341 < m < 0.0997\) & \(1.1499 < \sigma < 1.1985\)\\
+        \midrule
+  	\textbf{Normal: n=100} & \(0.1095 < m < 0.1340\) & \(0.9658 < \sigma < 0.9833\)\\
+        \toprule
+        \textbf{Random: n=20} & \(0.5120 < m < 0.5305\) & \(0.3171 < \sigma < 0.3236\)\\
+        \midrule
+        \textbf{Random: n=100} & \(0.4993 < m < 0.5068\) & \(0.2927 < \sigma < 0.2962\)\\
+        \toprule
+    \end{tabular}
+    \caption{Доверительные интервалы для выборочных среднего и дисперсии}
+    \label{tab:mus_n_sigmas}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{intervals20normal.jpg}
+    \caption{Нормальное распределение \(N(x, 0, 1)\), \(n=20\)}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{intervals100normal.jpg}
+    \caption{Нормальное распределение \(N(x, 0, 1)\), \(n=100\)}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{intervals20random.jpg}
+    \caption{Произвольное распределение, \(n=20\)}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{intervals100random.jpg}
+    \caption{Нормальное распределение, \(n=100\)}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sigmasnormal.jpg}
+    \caption{Доверительные интервалы СКО нормального распределения}
+    \label{fig:enter-normal}
+    \vspace{1cm}
+    \includegraphics[width=0.8\textwidth]{sigmasrandom.jpg}
+    \caption{Доверительные интервалы СКО произвольного распределения}
+    \label{fig:random}
+\end{figure}
+
+\subsection{Выводы}
+В обоих случаях при увеличении количества элементов в выборке наблюдается уменьшение как длины доверительного интервала СКО, так и уменьшение ее значения.
 
 \end{document}
