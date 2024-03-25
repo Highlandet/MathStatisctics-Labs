@@ -3,17 +3,13 @@ import numpy as np
 
 def calculate_statistics(sample):
     # Выборочное среднее
-    def Mean(sample):
-        return sum(sample) / len(sample)
+    Mean = np.mean
 
     # Выборочная медиана
-    def Median(sample):
-        if len(sample) % 2 == 1: return sample[len(sample) // 2]
-        return 0.5 * (sample[len(sample) // 2] + sample[len(sample) // 2 + 1])
+    Median = mp.median
 
     # Полусумма экстремальных выборочных элементов
-    def HalfsumExtreme(sample):
-        return 0.5 * (sample[0] + sample[-1])
+    HalfsumExtreme = lambda x: 0.5*(x[0] + x[-1])
 
     # Полусумма квартилей
     def HalfsumQuartiles(sample):
@@ -21,9 +17,8 @@ def calculate_statistics(sample):
             return 0.5 * (sample[len(sample) // 4 - 1] + sample[3 * len(sample) // 4 - 1]) / 2
         return 0.5 * (sample[len(sample) // 4] + sample[3 * len(sample) // 4]) / 2
 
-    def TrimmedMean(sample):
-        r = round(len(sample) / 4)
-        return sum(sample[r:len(sample) - r + 1]) / 4
+    #Усеченное среднее
+    TrimmedMean = lambda x: np.sum(x[round(len(x) / 4):len(x)-round(len(x) / 4)+1]) / (len(x)-2 * round(len(x/4)))
 
     return (Mean(sample), Median(sample), HalfsumExtreme(sample), HalfsumQuartiles(sample), TrimmedMean(sample))
 
